@@ -67,42 +67,18 @@ float mean(const std::vector<unsigned>& Ratings) {
 
 // задание 1
 void SortByName(std::vector<Student>& students) {
-    std::vector<std::string> names;
-    for (int i = 0; i < students.size(); i++) names.push_back(students[i].Name);
-    std::sort(names.begin(), names.end());
-    std::vector<Student> students_save = students;
-    students = {};
-    for (int n = 0; n < students_save.size(); n++) {
-        for (int i = 0; i < students_save.size(); i++) {
-            if (students_save[i].Name == names[n]) {
-                students.push_back(students_save[i]);
-                students_save.erase(students_save.begin() + i, students_save.begin() + i + 1);
-            }
-        }
-    }
-    if (!students_save.empty()) {
-        students.push_back(students_save[0]);
-    }
+    std::sort(students.begin(), students.end(),
+        [](const Student& a, const Student& b) {
+            return a.Name < b.Name;
+        });
 }
 
 // задание 2
 void SortByRating(std::vector<Student>& students) {
-    std::vector<float> ratings;
-    for (int i = 0; i < students.size(); i++) ratings.push_back(mean(students[i].Ratings));
-    std::sort(ratings.begin(), ratings.end());
-    std::vector<Student> students_save = students;
-    students = {};
-    for (int n = 0; n < students_save.size(); n++) {
-        for (int i = 0; i < students_save.size(); i++) {
-            if (mean(students_save[i].Ratings) == ratings[n]) {
-                students.push_back(students_save[i]);
-                students_save.erase(students_save.begin() + i, students_save.begin() + i + 1);
-            }
-        }
-    }
-    if (!students_save.empty()) {
-        students.push_back(students_save[0]);
-    }
+    std::sort(students.begin(), students.end(),
+        [](const Student& a, const Student& b) {
+            return mean(a.Ratings) < mean(b.Ratings);
+        });
 }
 
 // задание 3
